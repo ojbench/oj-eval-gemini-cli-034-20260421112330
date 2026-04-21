@@ -23,14 +23,6 @@ private:
 
     int randomLevel() {
         int level = 1;
-        while (((double)std::rand() / RAND_MAX) < probability && level < maxLevel) {
-            level++;
-        }
-        return level;
-    }
-
-    int randomLevel() {
-        int level = 1;
         while ((std::rand() & 0xFFFF) < (0.5 * 0xFFFF) && level < maxLevel) {
             level++;
         }
