@@ -29,10 +29,22 @@ private:
         return level;
     }
 
+    int randomLevel() {
+        int level = 1;
+        while ((std::rand() & 0xFFFF) < (0.5 * 0xFFFF) && level < maxLevel) {
+            level++;
+        }
+        return level;
+    }
+
 public:
     SkipList() : maxLevel(32), currentLevel(1), probability(0.5) {
         headNext.assign(maxLevel, nullptr);
-        std::srand(std::time(nullptr));
+        static bool seeded = false;
+        if (!seeded) {
+            std::srand(std::time(nullptr));
+            seeded = true;
+        }
     }
 
     ~SkipList() {
@@ -65,6 +77,7 @@ public:
         }
 
         int level = randomLevel();
+
         if (level > currentLevel) {
             for (int i = currentLevel; i < level; i++) {
                 update[i] = nullptr;
